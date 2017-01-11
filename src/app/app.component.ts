@@ -27,12 +27,10 @@ export class AppComponent {
   constructor(private formUploadService: FormUploadService) { }
 
   onSuccess(event: SuccessEvent) {
-    console.log(event.response['_body']);
     this.uploadedImageUrl = event.response['_body'];
   }
 
   onUpload(event: UploadEvent) {
-    console.log(event);
     event.data = {
       uid: event.files[0].uid
     };
