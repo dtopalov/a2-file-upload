@@ -55,13 +55,13 @@ app.post('/api/file', cpUpload, function (req, res) {
 });
 
 app.post('/api/remove', cpRemove, function(req, res){
-  console.log(req.body)
   fs.unlink(`${__dirname}/uploads/${req.body.uid}_${req.body.fileNames}`, (err) => {
     if (err) {
+      console.log(err);
       throw err;
     }
 
-    return res.status(200).send('success');
+    return res.status(200).send(`Image ${req.body.fileNames} removed successfully.`);
   });
 });
 

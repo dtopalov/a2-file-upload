@@ -11,7 +11,7 @@
         name="myUpload" #myUpload="ngModel"
         [saveUrl]="uploadSaveUrl"
         [removeUrl]="uploadRemoveUrl"
-        [restrictions]="myRestrictions",
+        [restrictions]="myRestrictions"
         [multiple]="false"
         (success)="onSuccess($event)"
         (upload)="onUpload($event)"
@@ -27,7 +27,10 @@
   <hr />
   <div *ngIf="results">
     <div>Username: {{ uploadedBy }}</div>
-    <div>URL: <a href="{{uploadedImageUrl}}" target="_blank">{{uploadedImageUrl}}</a></div>
+    <div>URL: 
+      <a *ngIf="uploadedImageUrl.startswith('http')" href="{{uploadedImageUrl}}" target="_blank">{{uploadedImageUrl}}</a>
+      <span *ngIf="uploadedImageUrl.startswith('Image')">{{uploadedImageUrl}}</span>
+    </div>
     <div>UID: {{ uploadedImageUid }}</div>
   </div>
 </div>
