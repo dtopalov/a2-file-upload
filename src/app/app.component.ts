@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FileInfo, FileRestrictions } from '@progress/kendo-angular-upload';
 import { Headers } from '@angular/http';
-import { FileUploadService } from './services/file-upload.service';
+import { FormUploadService } from './services/';
 
 @Component({
   selector: 'app-root',
@@ -19,13 +19,18 @@ export class AppComponent {
   public userName: string;
   public userImages: Array<FileInfo>;
 
-  constructor(private fileUploadService: FileUploadService) { }
+  constructor(private formUploadService: FormUploadService) { }
 
   save(value: any, valid: boolean) {
     if (valid) {
       let file = this.userImages[0];
-      let postData = { name: 'name' }; // Put your form data variable. This is only example.
-      this.fileUploadService.postWithFile(
+      let postData = {
+        userName: this.userName,
+        fileUid: file.uid,
+        fileName: file.name
+       };
+
+      this.formUploadService.postWithFile(
         this.uploadSaveUrl,
         postData,
         [file.rawFile])

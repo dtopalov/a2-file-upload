@@ -21,10 +21,14 @@ const express	=	require("express"),
 // });
 
 app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'upload')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(function(req, res, next){
   let accept = req.accepts('html', 'json', 'xml'),
     ext = path.extname(req.path);
+
+  if(req.path.startsWith('/uploads/')){
+    res.sendFile(req.path);
+  }
 
   if(accept !== 'html' || ext !== '' || req.path.startsWith('/api/')) {
     return next();
@@ -38,8 +42,12 @@ app.post('/api/file',function(req, res){
 		if(err) {
 			return res.end("Error uploading file.");
 		}
-
-		res.end("File is uploaded");
+    console.log(req.body)
+		return res.json({
+      url: 'http://localhost:3000/uploads/' + req.body.fileName,
+      username: req.body.userName,
+      fileUid: req.body.fileUid
+    });
 	});
 });
 

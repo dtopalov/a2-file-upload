@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { AppComponent } from './app.component';
-import { FileUploadService } from './services/file-upload.service';
+import { FormUploadService } from './services/';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { FileUploadService } from './services/file-upload.service';
     HttpModule,
     UploadModule
   ],
-  providers: [FileUploadService],
+  providers: [FormUploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
