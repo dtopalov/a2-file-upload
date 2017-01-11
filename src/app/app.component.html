@@ -11,7 +11,8 @@
         name="myUpload" #myUpload="ngModel"
         [saveUrl]="uploadSaveUrl"
         [removeUrl]="uploadRemoveUrl"
-        [restrictions]="myRestrictions"
+        [restrictions]="myRestrictions",
+        [multiple]="false"
         (success)="onSuccess($event)"
         (upload)="onUpload($event)"
         (remove)="onRemove($event)"

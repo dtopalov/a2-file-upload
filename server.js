@@ -10,15 +10,24 @@ const express = require('express'),
       callback(null, req.body.uid + '_' + file.originalname);
     }
   }),
-  path = require('path');
+  myupload = multer({ storage }),
+  cpUpload = myupload.fields([
+    { name: 'files' },
+    { name: 'uid' }
+  ]), 
+  cpRemove = myupload.fields([{
+    name: 'uid'
+  }]),
+  path = require('path')
+  fs = require('fs');
 
 // Allow CORS
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://runner.telerik.io");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "http://runner.telerik.io");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   res.header("Access-Control-Allow-Credentials", true);
+//   next();
+// });
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -41,25 +50,20 @@ app.use(function (req, res, next) {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var myupload = multer({ storage });
-var cpUpload = myupload.fields([
-  { name: 'files' },
-  { name: 'uid' }
-]);
 app.post('/api/file', cpUpload, function (req, res) {
   return res.send('http://localhost:3000/uploads/' + req.body.uid + '_' + req.files.files[0].originalname);
 });
 
-// app.post('/api/file',function(req, res){
-//   console.log(req.files);
-// 	upload(req, res, function(err) {
-// 		if(err) {
-// 			return res.end("Error uploading file.");
-// 		}
+app.post('/api/remove', cpRemove, function(req, res){
+  console.log(req.body)
+  fs.unlink(`${__dirname}/uploads/${req.body.uid}_${req.body.fileNames}`, (err) => {
+    if (err) {
+      throw err;
+    }
 
-//     return res.send('http://localhost:3000/uploads/' + res.req.file.filename);
-// 	});
-// });
+    return res.status(200).send('success');
+  });
+});
 
 app.post('/api/form', function (req, res) {
   return res.send({

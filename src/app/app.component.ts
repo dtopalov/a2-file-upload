@@ -10,8 +10,8 @@ import { FormUploadService } from './services/';
 })
 export class AppComponent {
   uploadSaveUrl: string = '/api/file';
+  uploadRemoveUrl: string = '/api/remove';
   formEndpoint: string = '/api/form';
-  uploadRemoveUrl: string = 'removeUrl';
   uploadedImageUrl: string;
   uploadedImageUid: string;
   uploadedBy: string;
