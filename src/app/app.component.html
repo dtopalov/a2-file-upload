@@ -12,6 +12,9 @@
         [saveUrl]="uploadSaveUrl"
         [removeUrl]="uploadRemoveUrl"
         [restrictions]="myRestrictions"
+        (success)="onSuccess($event)"
+        (upload)="onUpload($event)"
+        (remove)="onRemove($event)"
         [(ngModel)]="userImages">
       </kendo-upload>
       <span style="color: red;" [hidden]="myUpload.valid || (myUpload.pristine && !myForm.submitted)">Uploading an avatar is required</span>
@@ -20,4 +23,10 @@
   </form>
   <div>Is form valid: {{ myForm.valid }}</div>
   <div>Is form submitted: {{ myForm.submitted }}</div>
+  <hr />
+  <div *ngIf="results">
+    <div>Username: {{ uploadedBy }}</div>
+    <div>URL: <a href="{{uploadedImageUrl}}" target="_blank">{{uploadedImageUrl}}</a></div>
+    <div>UID: {{ uploadedImageUid }}</div>
+  </div>
 </div>
